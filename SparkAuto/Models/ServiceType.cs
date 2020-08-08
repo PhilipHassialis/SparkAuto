@@ -13,6 +13,7 @@ namespace SparkAuto.Models
         [Required]
         public string Name { get; set; }
         [Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:N}")]
         public double Price { get; set; }
     }
 }

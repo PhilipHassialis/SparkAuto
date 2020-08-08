@@ -23,7 +23,7 @@
             <label asp-for="ServiceType.Price"></label>
         </div>
         <div class="col-5">
-            <input asp-for="ServiceType.Price" type="number" style="width:100%" />
+            <input asp-for="ServiceType.Price" type="number" step="0.01" style="width:100%" />
 
         </div>
         <span asp-validation-for="ServiceType.Price" class="text-danger"></span>
