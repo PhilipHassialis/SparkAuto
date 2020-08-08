@@ -1,43 +1,50 @@
 ﻿@page
 @model SparkAuto.Pages.ServiceTypes.CreateModel
 @{
-    ViewData["Title"]="Create";
+    ViewData["Title"] = "Create";
 }
 
-<br/>
+<br />
 <h2 class="text-info">Create Service Type</h2>
-<br/>
+<br />
 <form method="post">
     <div class="form-group row">
         <div class="col-2">
             <label asp-for="ServiceType.Name"></label>
         </div>
         <div class="col-5">
-            <input asp-for="ServiceType.Name" />
+            <input asp-for="ServiceType.Name" style="width:100%" />
+
         </div>
+        <span asp-validation-for="ServiceType.Name" class="text-danger"></span>
     </div>
     <div class="form-group row">
         <div class="col-2">
             <label asp-for="ServiceType.Price"></label>
         </div>
         <div class="col-5">
-            <input asp-for="ServiceType.Price" />
+            <input asp-for="ServiceType.Price" type="number" style="width:100%" />
+
         </div>
+        <span asp-validation-for="ServiceType.Price" class="text-danger"></span>
     </div>
     <div class="form-group row">
         <div class="offset-2 col-5">
             <div class="row">
                 <div class="col-6">
                     <input type="submit" class="btn btn-info form-control" value="Create" />
-    
+
                 </div>
                 <div class="col-6">
                     <a asp-action="Index" class="btn btn-success form-control">Back To List</a>
                 </div>
             </div>
         </div>
-        </div>
+    </div>
 </form>
 
-
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <localization-validation-scripts></localization-validation-scripts>
+}
 

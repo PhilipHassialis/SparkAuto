@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
+using LazZiya.TagHelpers;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace SparkAuto
 {
@@ -40,6 +42,8 @@ namespace SparkAuto
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.AddTransient<ITagHelperComponent, LocalizationValidationScriptsTagHelperComponent>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
