@@ -48,30 +48,37 @@ namespace SparkAuto.Pages.ServiceTypes
                 return Page();
             }
 
-            _db.Attach(ServiceType).State = EntityState.Modified;
+            //_db.Attach(ServiceType).State = EntityState.Modified;
 
-            try
-            {
-                await _db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ServiceTypeExists(ServiceType.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            //try
+            //{
+            //    await _db.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!ServiceTypeExists(ServiceType.Id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            // previous way is out of the box scaffolded. By hand way follows:
+
+            var serviceFromDb = await _db.ServiceType.FirstOrDefaultAsync(s => s.Id == ServiceType.Id);
+            serviceFromDb.Name = ServiceType.Name;
+            serviceFromDb.Price = ServiceType.Price;
+            await _db.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }
 
-        private bool ServiceTypeExists(int id)
-        {
-            return _db.ServiceType.Any(e => e.Id == id);
-        }
+        //private bool ServiceTypeExists(int id)
+        //{
+        //    return _db.ServiceType.Any(e => e.Id == id);
+        //}
     }
 }
