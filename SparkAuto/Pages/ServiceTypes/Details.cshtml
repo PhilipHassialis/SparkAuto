@@ -1,0 +1,35 @@
+﻿@page
+@model SparkAuto.Pages.ServiceTypes.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewData["Id"] = Model.ServiceType.Id;
+}
+
+
+<br />
+<h2 class="text-info">Service Type Details</h2>
+<br />
+
+    <div class="form-group row">
+        <input type="hidden" asp-for="ServiceType.Id" />
+        <div class="col-2">
+            <label asp-for="ServiceType.Name"></label>
+        </div>
+        <div class="col-5">
+            <input asp-for="ServiceType.Name" style="width:100%" disabled="disabled" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-2">
+            <label asp-for="ServiceType.Price"></label>
+        </div>
+        <div class="col-5">
+            <input asp-for="ServiceType.Price" style="width:100%" disabled="disabled"  />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="offset-2 col-5">
+            <partial name="_DetailsAndBackToListButton" view-data="ViewData"  />
+        </div>
+    </div>
