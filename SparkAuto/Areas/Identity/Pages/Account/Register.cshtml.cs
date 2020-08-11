@@ -99,7 +99,8 @@ namespace SparkAuto.Areas.Identity.Pages.Account
                     Name = Input.Name,
                     Address = Input.Address,
                     City = Input.City,
-                    PostalCode = Input.PostalCode
+                    PostalCode = Input.PostalCode,
+                    PhoneNumber = Input.PhoneNumber
                     
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);

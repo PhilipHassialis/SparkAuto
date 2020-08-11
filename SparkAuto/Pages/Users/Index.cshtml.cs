@@ -20,9 +20,9 @@ namespace SparkAuto.Pages.Users
         }
 
         [BindProperty]
-        List<ApplicationUser> ApplicationUserList { get; set; }
+        public List<ApplicationUser> ApplicationUserList { get; set; }
 
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
             ApplicationUserList = await _db.ApplicationUser.ToListAsync();
             return Page();
