@@ -25,21 +25,52 @@ namespace SparkAuto.Pages.Users
         [BindProperty]
         public UsersListViewModel UsersListVM { get; set; }
 
-        public async Task<IActionResult> OnGet(int userPage = 1)
+        public async Task<IActionResult> OnGet(int userPage = 1, string searchEmail = null, string searchName = null, string searchPhone = null)
         {
-            var usersList = await _db.ApplicationUser.ToListAsync();
-            UsersListVM = new UsersListViewModel()
-            {
-                ApplicationUserList = usersList,
-                PagingInfo = new PagingInfo()
-                {
-                    CurrentPage = userPage,
-                    ItemsPerPage = SD.PaginationUsersPageSize,
-                    TotalItems = usersList.Count,
-                    UrlParam = "/Users?userPage=:"
+            UsersListVM = new UsersListViewModel();
 
+            StringBuilder param = new StringBuilder("/Users?userPage=:");
+            param.Append("&searchName=");
+            if (searchName != null) param.Append(searchName);
+            param.Append("&searchEmail=");
+            if (searchEmail != null) param.Append(searchEmail);
+            param.Append("&searchPhone=");
+            if (searchPhone != null) param.Append(searchPhone);
+
+            if (searchEmail != null)
+            {
+                UsersListVM.ApplicationUserList = await _db.ApplicationUser.Where(u => u.Email.ToLower().Contains(searchEmail)).ToListAsync();
+            }
+            else
+            {
+                if (searchName != null)
+                {
+                    UsersListVM.ApplicationUserList = await _db.ApplicationUser.Where(u => u.Email.ToLower().Contains(searchName)).ToListAsync();
                 }
+                else
+                {
+                    if (searchPhone != null)
+                    {
+                        UsersListVM.ApplicationUserList = await _db.ApplicationUser.Where(u => u.Email.ToLower().Contains(searchPhone)).ToListAsync();
+                    }
+                    else
+                    {
+                        UsersListVM.ApplicationUserList = await _db.ApplicationUser.ToListAsync();
+                    }
+                }
+            }
+
+            UsersListVM.PagingInfo = new PagingInfo()
+            {
+                CurrentPage = userPage,
+                ItemsPerPage = SD.PaginationUsersPageSize,
+                TotalItems = UsersListVM.ApplicationUserList.Count,
+                UrlParam = param.ToString()
             };
+
+
+            UsersListVM.PagingInfo.UrlParam = param.ToString();
+
             UsersListVM.ApplicationUserList = UsersListVM.ApplicationUserList.OrderBy(p => p.Name)
                 .Skip((userPage - 1) * SD.PaginationUsersPageSize)
                 .Take(SD.PaginationUsersPageSize)
