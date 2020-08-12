@@ -32,9 +32,18 @@ namespace SparkAuto
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<IdentityUser,IdentityRole>()
-                .AddDefaultTokenProviders()
+                .AddDefaultTokenProviders().AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            // manual way to set login/logout/accessdenied paths
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.LoginPath = $"/Identity/Account/Login";
+            //    options.LogoutPath = $"/Identity/Account/Logout";
+            //    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            //});
+
 
         }
 
