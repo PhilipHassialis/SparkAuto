@@ -79,6 +79,7 @@ namespace SparkAuto.Areas.Identity.Pages.Account
 
             [Required]
             public string PhoneNumber { get; set; }
+            public Boolean IsAdmin { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
