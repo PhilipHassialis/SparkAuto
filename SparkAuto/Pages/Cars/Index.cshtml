@@ -84,7 +84,11 @@
                         @Html.DisplayNameFor(m => m.CarAndCustomerVM.Cars.FirstOrDefault().Color)
                     </th>
                     <th></th>
-                    <th></th>
+                    @if (User.IsInRole(SD.AdminEndUser))
+                    {
+                        <th></th>
+
+                    }
                     <th></th>
                 </tr>
                 @foreach (var item in Model.CarAndCustomerVM.Cars)
@@ -103,8 +107,18 @@
                             @Html.DisplayFor(m => item.Color)
                         </td>
                         <td>
+                            <a class="btn btn-secondary " asp-page="../Services/History" asp-route-id="@item.Id">
+                                <i class="fas fa-wrench"></i> &nbsp; Service History
+                            </a>
                         </td>
-                        <td></td>
+                        @if (User.IsInRole(SD.AdminEndUser))
+                        {
+                            <td>
+                                <a class="btn btn-success " asp-page="../Services/Create" asp-route-id="@item.Id">
+                                    <i class="fas fa-plus"></i> &nbsp; New Service
+                                </a>
+                            </td>
+                        }
                         <td>
                             <a class="btn btn-primary text-white" asp-page="Edit" asp-route-id="@item.Id">
                                 <i class="fas fa-edit"></i>
