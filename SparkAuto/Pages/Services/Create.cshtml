@@ -2,3 +2,45 @@
 @model SparkAuto.Pages.Services.CreateModel
 @{
 }
+
+<div class="container pt-4 pb-2 row" >
+    <div class="col-6">
+        <h2 class="text-info py-2">Create new service</h2>
+    </div>
+    <div class="col-3 offset-3 text-right py-2">
+        <a asp-page="../Cars/Index" asp-route-userId="@Model.CarServiceVM.Car.UserId" class="btn btn-outline-success form-control">
+            Back to List
+        </a>
+    </div>
+</div>
+
+<div class="container backgroundwhite">
+    <div class="card">
+        <div class="card-header bg-dark text-light ml-0 row container">
+            <div class="col-1 text-center pt-3 text-white-50">
+                <i class="far fa-user fa-2x">
+
+                </i>
+            </div>
+            <div class="col-5">
+
+            </div>
+            <div class="col-5">
+
+            </div>
+
+            <div class="col-1 text-center pt-3 text-white-50">
+                <i class="fas fa-car fa-2x">
+
+                </i>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row" style="padding-bottom:40px; padding-top:20px;">
+        
+        </div>
+     
+    </div>
+</div>
