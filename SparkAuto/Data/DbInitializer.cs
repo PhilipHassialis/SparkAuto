@@ -52,9 +52,7 @@ namespace SparkAuto.Data
 
             }, "Live!Uni12").GetAwaiter().GetResult();
 
-            IdentityUser user = await _db.Users.FirstOrDefaultAsync(u => u.Email == "admin@sparkauto.com");
-
-            _userManager.AddToRoleAsync(user, SD.AdminEndUser).GetAwaiter().GetResult();
+            _userManager.AddToRoleAsync(_db.Users.FirstOrDefaultAsync(u => u.Email == "admin@sparkauto.com").GetAwaiter().GetResult(), SD.AdminEndUser).GetAwaiter().GetResult();
         }
     }
 }
