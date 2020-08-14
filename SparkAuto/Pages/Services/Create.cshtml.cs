@@ -28,7 +28,7 @@ namespace SparkAuto.Pages.Services
         {
             CarServiceVM = new CarServiceViewModel() {
                 Car = await _db.Car.Include(c => c.ApplicationUser).FirstOrDefaultAsync(c => c.Id == carId),
-                ServiceHeader = new ServiceHeader(),
+                ServiceHeader = new ServiceHeader()
             };
 
             List<string> lstServiceTypeInShoppingCart = _db.ServiceShoppingCart
@@ -64,7 +64,7 @@ namespace SparkAuto.Pages.Services
                 {
                     CarServiceVM.ServiceHeader.TotalPrice += item.ServiceType.Price;
                 }
-                CarServiceVM.ServiceHeader.Car.Id = CarServiceVM.Car.Id;
+                CarServiceVM.ServiceHeader.CarId = CarServiceVM.Car.Id;
 
                 _db.ServiceHeader.Add(CarServiceVM.ServiceHeader);
                 await _db.SaveChangesAsync();
