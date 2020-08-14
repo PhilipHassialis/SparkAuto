@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using SparkAuto.Data;
 
 namespace SparkAuto.Areas.Identity.Pages.Account.Manage
 {
@@ -13,13 +15,17 @@ namespace SparkAuto.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ApplicationDbContext _db;
 
         public IndexModel(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            SignInManager<IdentityUser> signInManager,
+            ApplicationDbContext db
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _db = db;
         }
 
         public string Username { get; set; }
@@ -35,6 +41,12 @@ namespace SparkAuto.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [Required]
+            public string Name { get; set; }
+            public string Address { get; set; }
+            public string City  { get; set; }
+            public string PostalCode { get; set; }
+
         }
 
         private async Task LoadAsync(IdentityUser user)
@@ -44,9 +56,15 @@ namespace SparkAuto.Areas.Identity.Pages.Account.Manage
 
             Username = userName;
 
+            var userFromDb =  await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Email == user.Email);
+
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Address = userFromDb.Address,
+                City = userFromDb.City,
+                PostalCode = userFromDb.PostalCode,
+                Name = userFromDb.Name
             };
         }
 
@@ -86,6 +104,14 @@ namespace SparkAuto.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+
+            var userFromDb = await _db.ApplicationUser.FirstOrDefaultAsync(u => u.Email == user.Email);
+
+            userFromDb.Name = Input.Name;
+            userFromDb.Address = Input.Address;
+            userFromDb.City = Input.City;
+            userFromDb.PostalCode = Input.PostalCode;
+
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
