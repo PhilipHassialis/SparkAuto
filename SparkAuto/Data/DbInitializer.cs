@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using SparkAuto.Models;
+using SparkAuto.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,9 +11,50 @@ namespace SparkAuto.Data
 {
     public class DbInitializer : IDbInitializer
     {
-        public void Initialize()
+        private readonly ApplicationDbContext _db;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public DbInitializer(ApplicationDbContext db, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            throw new NotImplementedException();
+            _db = db;
+            _userManager = userManager;
+            _roleManager = roleManager;
+
+        }
+
+        public async void Initialize()
+        {
+            try
+            {
+                if (_db.Database.GetPendingMigrations().Count()>0)
+                {
+                    _db.Database.Migrate();
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            if (_db.Roles.Any(r => r.Name == SD.AdminEndUser)) return;
+
+            _roleManager.CreateAsync(new IdentityRole(SD.AdminEndUser)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(SD.CustomerEndUser)).GetAwaiter().GetResult();
+
+            _userManager.CreateAsync(new ApplicationUser
+            {
+                UserName = "admin@sparkauto.com",
+                Email = "admin@sparkauto.com",
+                Name = "Admin",
+                EmailConfirmed = true,
+                PhoneNumber = "1234567890"
+
+            }, "Live!Uni12").GetAwaiter().GetResult();
+
+            IdentityUser user = await _db.Users.FirstOrDefaultAsync(u => u.Email == "admin@sparkauto.com");
+
+            _userManager.AddToRoleAsync(user, SD.AdminEndUser).GetAwaiter().GetResult();
         }
     }
 }
