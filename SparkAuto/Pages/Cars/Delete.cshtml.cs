@@ -9,6 +9,8 @@ using SparkAuto.Models;
 
 namespace SparkAuto.Pages.Cars
 {
+    [Authorize]
+
     public class DeleteModel : PageModel
     {
         private readonly ApplicationDbContext _db;

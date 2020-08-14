@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SparkAuto.Data;
@@ -10,6 +11,7 @@ using SparkAuto.Models;
 
 namespace SparkAuto.Pages.Cars
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
 
@@ -24,7 +26,7 @@ namespace SparkAuto.Pages.Cars
 
         [BindProperty]
         public Car Car { get; set; }
-        public IActionResult OnGet(string userId=null)
+        public IActionResult OnGet(string userId = null)
         {
 
             if (userId == null)
