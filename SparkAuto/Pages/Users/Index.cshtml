@@ -70,15 +70,15 @@
                             @Html.DisplayFor(m => item.PhoneNumber)
                         </td>
                         <td>
-                            <a asp-page="../Cars/Index" asp-route-id="@item.Id" style="text-decoration:none;">
+                            <a asp-page="../Cars/Index" asp-route-userId="@item.Id" style="text-decoration:none;">
                                 <img src="/images/car.png" width="40"/>&nbsp; View Cars
                             </a>
                         </td>
                         <td>
-                            <a class="btn btn-primary text-white" asp-page="Edit" asp-route-id="@item.Id">
+                            <a class="btn btn-primary text-white" asp-page="Edit" asp-route-userId="@item.Id">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a class="btn btn-danger text-white" asp-page="Delete" asp-route-id="@item.Id">
+                            <a class="btn btn-danger text-white" asp-page="Delete" asp-route-userId="@item.Id">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
